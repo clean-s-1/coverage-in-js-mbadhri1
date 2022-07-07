@@ -1,4 +1,3 @@
-
 function inferBreach(value, lowerLimit, upperLimit) {
   if (value < lowerLimit) {
     return 'TOO_LOW';
@@ -9,38 +8,24 @@ function inferBreach(value, lowerLimit, upperLimit) {
   return 'NORMAL';
 }
 
-function classifyTemperatureBreach(coolingType, temperatureInC) {
-  let lowerLimit = 0;
-  let upperLimit = 0;
-  if (coolingType == 'PASSIVE_COOLING') {
-    lowerLimit = 0;
-    upperLimit = 35;
-  } else if (coolingType == 'HI_ACTIVE_COOLING') {
-    lowerLimit = 0;
-    upperLimit = 45;
-  } else if (coolingType == 'MED_ACTIVE_COOLING') {
-    lowerLimit = 0;
-    upperLimit = 40;
-  }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
-}
-
-function checkAndAlert(alertTarget, batteryChar, temperatureInC) {
-  const breachType = classifyTemperatureBreach(batteryChar['coolingType'], temperatureInC);
-  if (alertTarget == 'TO_CONTROLLER') {
-    sendToController(breachType);
-  } else if (alertTarget == 'TO_EMAIL') {
-    sendToEmail(breachType);
+function checkAndAlert(alerter, batteryChar, coolingTypes) {
+  const breachType = inferBreach(
+      batteryChar.temperatureInC,
+      coolingTypes[batteryChar.coolingType].lowerLimit,
+      coolingTypes[batteryChar.coolingType].upperLimit,
+  );
+  if (alerter.type == 'TO_CONTROLLER') {
+    sendToController(breachType, alerter.header);
+  } else if (alerter.type == 'TO_EMAIL') {
+    sendToEmail(breachType, alerter.recepient);
   }
 }
 
-function sendToController(breachType) {
-  const header = 0xfeed;
+function sendToController(breachType, header) {
   console.log(`${header}, ${breachType}`);
 }
 
-function sendToEmail(breachType) {
-  const recepient = 'a.b@c.com';
+function sendToEmail(breachType, recepient) {
   if (breachType == 'TOO_LOW') {
     console.log(`To: ${recepient}`);
     console.log('Hi, the temperature is too low');
@@ -50,5 +35,9 @@ function sendToEmail(breachType) {
   }
 }
 
-module.exports =
-    {inferBreach, classifyTemperatureBreach, checkAndAlert, sendToController, sendToEmail};
+module.exports = {
+  inferBreach,
+  checkAndAlert,
+  sendToController,
+  sendToEmail,
+};
