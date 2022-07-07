@@ -19,28 +19,25 @@ it('should send to controller logs correctly', () => {
   const inspect = stdout.inspect();
   alerts.sendToController('NORMAL', '0xfeed');
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal(['0xfeed, NORMAL\n']);
 });
 
 it('should send to email logs correctly for low', () => {
   const inspect = stdout.inspect();
-  alerts.sendToEmail('TOO_LOW', 'a.b@c.com');
+  alerts.sendToEmail('TOO_LOW', 'a.b@cd.com');
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cd.com\n',
     'Hi, the temperature is too low\n',
   ]);
 });
 
 it('should send to email logs correctly for high', () => {
   const inspect = stdout.inspect();
-  alerts.sendToEmail('TOO_HIGH', 'a.b@c.com');
+  alerts.sendToEmail('TOO_HIGH', 'a.b@ce.com');
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@ce.com\n',
     'Hi, the temperature is too high\n',
   ]);
 });
@@ -48,14 +45,13 @@ it('should send to email logs correctly for high', () => {
 it('should check and alert for email and low temperature and high active cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@cf.com', type: 'TO_EMAIL'},
       {temperatureInC: -2, coolingType: 'HI_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cf.com\n',
     'Hi, the temperature is too low\n',
   ]);
 });
@@ -63,14 +59,13 @@ it('should check and alert for email and low temperature and high active cooling
 it('should check and alert for email and high temperature and high active cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@ch.com', type: 'TO_EMAIL'},
       {temperatureInC: 46, coolingType: 'HI_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@ch.com\n',
     'Hi, the temperature is too high\n',
   ]);
 });
@@ -78,14 +73,13 @@ it('should check and alert for email and high temperature and high active coolin
 it('should check and alert for email and low temperature and medium active cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@cv.com', type: 'TO_EMAIL'},
       {temperatureInC: -2, coolingType: 'MED_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cv.com\n',
     'Hi, the temperature is too low\n',
   ]);
 });
@@ -93,14 +87,13 @@ it('should check and alert for email and low temperature and medium active cooli
 it('should check and alert for email and high temperature and medium active cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@cb.com', type: 'TO_EMAIL'},
       {temperatureInC: 41, coolingType: 'MED_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cb.com\n',
     'Hi, the temperature is too high\n',
   ]);
 });
@@ -108,14 +101,13 @@ it('should check and alert for email and high temperature and medium active cool
 it('should check and alert for email and low temperature and passive cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@cq.com', type: 'TO_EMAIL'},
       {temperatureInC: -2, coolingType: 'PASSIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cq.com\n',
     'Hi, the temperature is too low\n',
   ]);
 });
@@ -123,14 +115,13 @@ it('should check and alert for email and low temperature and passive cooling', (
 it('should check and alert for email and high temperature and passive cooling', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@cx.com', type: 'TO_EMAIL'},
       {temperatureInC: 36, coolingType: 'PASSIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([
-    'To: a.b@c.com\n',
+    'To: a.b@cx.com\n',
     'Hi, the temperature is too high\n',
   ]);
 });
@@ -138,35 +129,32 @@ it('should check and alert for email and high temperature and passive cooling', 
 it('should check normal temperature and PASSIVE_COOLING', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@xc.com', type: 'TO_EMAIL'},
       {temperatureInC: 34, coolingType: 'PASSIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([]);
 });
 
 it('should check normal temperature and HI_ACTIVE_COOLING', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@zc.com', type: 'TO_EMAIL'},
       {temperatureInC: 34, coolingType: 'HI_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([]);
 });
 
 it('should check normal temperature and MED_ACTIVE_COOLING ', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@c.com', type: 'TO_EMAIL'},
+      {recepient: 'a.b@fc.com', type: 'TO_EMAIL'},
       {temperatureInC: 34, coolingType: 'MED_ACTIVE_COOLING'},
       coolingTypes,
   );
   inspect.restore();
-  // expect(inspect.output).to.deep.equal(['foo\n']);
   expect(inspect.output).to.deep.equal([]);
 });
