@@ -138,7 +138,7 @@ it('should check normal temperature and PASSIVE_COOLING', () => {
 it('should check normal temperature and HI_ACTIVE_COOLING', () => {
   const inspect = stdout.inspect();
   alerts.checkAndAlert(
-      {recepient: 'a.b@zc.com', type: 'TO_EMAIL'},
+      {recepient: 'aa.b@zc.com', type: 'TO_EMAIL'},
       {temperatureInC: 34, coolingType: 'HI_ACTIVE_COOLING'},
       coolingTypes,
       breachTypes,
@@ -147,14 +147,4 @@ it('should check normal temperature and HI_ACTIVE_COOLING', () => {
   expect(inspect.output).to.deep.equal([]);
 });
 
-it('should check normal temperature and MED_ACTIVE_COOLING ', () => {
-  const inspect = stdout.inspect();
-  alerts.checkAndAlert(
-      {recepient: 'a.b@fc.com', type: 'TO_EMAIL'},
-      {temperatureInC: 34, coolingType: 'MED_ACTIVE_COOLING'},
-      coolingTypes,
-      breachTypes,
-  );
-  inspect.restore();
-  expect(inspect.output).to.deep.equal([]);
-});
+
