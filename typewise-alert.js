@@ -15,30 +15,14 @@ function checkAndAlert(alerter, batteryChar, coolingTypes, breachTypes) {
       coolingTypes[batteryChar.coolingType].upperLimit,
   );
   if (breachTypes[breachType].alert) {
-    alertForBreach(alerter, breachTypes, breachType);
+    alerter.message = breachTypes[breachType].alertMessage;
+    alerter.breachType = breachType;
+    alerter.raiseAlert();
   }
 }
 
-function alertForBreach(alerter, breachTypes, breachType) {
-  if (alerter.type == 'TO_CONTROLLER') {
-    sendToController(breachType, alerter.header);
-  } else if (alerter.type == 'TO_EMAIL') {
-    sendToEmail(alerter.recepient, breachTypes[breachType].alertMessage);
-  }
-}
-
-function sendToController(breachType, header) {
-  console.log(`${header}, ${breachType}`);
-}
-
-function sendToEmail(recepient, message) {
-  console.log(`To: ${recepient}`);
-  console.log(message);
-}
 
 module.exports = {
   inferBreach,
   checkAndAlert,
-  sendToController,
-  sendToEmail,
 };

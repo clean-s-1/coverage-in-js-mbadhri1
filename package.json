@@ -26,6 +26,7 @@
 		"nyc": "^15.1.0"
 	},
 	"dependencies": {
+		"implement-js": "0.0.31",
 		"jshint": "^2.13.4",
 		"test-console": "^2.0.0"
 	}
